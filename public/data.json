@@ -1,0 +1,52 @@
+{
+  "data": [
+    {
+      "id": "u1",
+      "userid": "u001",
+      "Age": "25",
+      "Gender": "Female",
+      "Blood type": "A",
+      "Educational background (Highest education)": "Bachelor's",
+      "Major/Field of study": "Computer Science",
+      "Occupation": "Software Developer",
+      "Department": "Engineering",
+      "Position (job title)": "Junior Developer",
+      "Personality": "Analytical",
+      "Hobbies": "Reading, Coding",
+      "Information gathering media": "Online News",
+      "create_dt": "2024-07-22"
+    },
+    {
+      "id": "u2",
+      "userid": "u002",
+      "Age": "30",
+      "Gender": "Male",
+      "Blood type": "B",
+      "Educational background (Highest education)": "Master's",
+      "Major/Field of study": "Data Science",
+      "Occupation": "Data Analyst",
+      "Department": "Analytics",
+      "Position (job title)": "Senior Analyst",
+      "Personality": "Detail-oriented",
+      "Hobbies": "Hiking, Gaming",
+      "Information gathering media": "Scientific Journals",
+      "create_dt": "2024-07-22"
+    },
+    {
+      "id": "u3",
+      "userid": "u003",
+      "Age": "28",
+      "Gender": "Non-binary",
+      "Blood type": "O",
+      "Educational background (Highest education)": "PhD",
+      "Major/Field of study": "Artificial Intelligence",
+      "Occupation": "Research Scientist",
+      "Department": "R&D",
+      "Position (job title)": "Lead Scientist",
+      "Personality": "Innovative",
+      "Hobbies": "Writing, Traveling",
+      "Information gathering media": "Research Papers",
+      "create_dt": "2024-07-22"
+    }
+  ]
+}
