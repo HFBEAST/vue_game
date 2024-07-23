@@ -17,30 +17,43 @@
       </el-col>
     </el-row>
 
-    <el-table :data="questions" style="width: 100%">
-      <el-table-column prop="id" label="ID" width="50"></el-table-column>
-      <el-table-column prop="question" label="Question" width="auto">
-        <template #default="scope">
-          <div class="content-cell">{{ scope.row.question }}</div>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" width="180">
-        <template #default="scope">
-          <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row.id)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <el-scrollbar height="400px">
+      <el-table :data="questions" style="width: 100%">
+        <el-table-column prop="id" label="ID" width="50"></el-table-column>
+        <el-table-column prop="question" label="Question" width="auto">
+          <template #default="scope">
+            <div class="content-cell">{{ scope.row.question }}</div>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="180">
+          <template #default="scope">
+            <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row.id)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-scrollbar>
   </div>
 </template>
 
 <script setup>
-import {ref} from 'vue';
+import {onMounted, ref} from 'vue';
+import {loadDataFromAWS} from '@/utils/ToAWS'; // 确保导入路径正确
 
-const questions = ref([
-  {id: 1, question: 'What is your name?'},
-  {id: 2, question: 'How old are you?'},
-  {id: 3, question: 'Where do you live?'}
-]);
+const questions = ref(null);
+
+const fetchAWSData = () => {
+  const url = 'https://o5ymi5rci6dobeyypagnu44zlq0fnnlf.lambda-url.ap-northeast-1.on.aws/';
+  const requestData = {id: 'q'};
+
+  loadDataFromAWS(url, requestData, (error, data) => {
+    if (error) {
+      console.error("Error fetching or parsing data:", error);
+      return;
+    }
+    questions.value = data; // 更新 awsdata 响应式变量
+    console.log(data);
+  });
+};
 
 const newQuestion = ref({question: ''});
 
@@ -59,6 +72,9 @@ const handleAdd = () => {
 const handleDelete = (index, id) => {
   questions.value = questions.value.filter((q) => q.id !== id).map((q, i) => ({...q, id: i + 1}));
 };
+
+onMounted(fetchAWSData); // 在组件挂载时调用 fetchAWSData 函数
+
 </script>
 
 <style scoped>

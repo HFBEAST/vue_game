@@ -1,6 +1,12 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 
 const routes = [
+    {
+    path: '/',
+    name: 'test',
+    component: () => import('@/views/TestPage.vue'),
+    meta: { title: 'test' }
+  },
   {
     path: '/userlist',
     name: 'userlist',
