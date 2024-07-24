@@ -36,6 +36,7 @@
         <el-table-column prop="great" label="great" width="20"/>
         <el-table-column prop="good" label="good" width="20"/>
         <el-table-column prop="score" label="score" width="20"/>
+        <el-table-column prop="morpheme" label="morpheme" width="100"/>
         <el-table-column prop="keys" label="keys" width="500"/>
         <el-table-column label="操作" width="180">
           <template #default="scope">
