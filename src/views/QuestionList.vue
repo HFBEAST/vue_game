@@ -2,8 +2,6 @@
   <div class="content">
     <HeaderNav title="QuestionList"/>
     <div class="main-content">
-      <h2>QuestionList Content</h2>
-      <p>This is the QuestionList page.</p>
       <CreateQuestion/>
     </div>
   </div>

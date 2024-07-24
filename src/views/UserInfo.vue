@@ -2,8 +2,6 @@
   <div class="container">
     <HeaderNav title="UserInfo"/>
     <div class="content-container">
-      <h2>UserInfo Content</h2>
-      <p>This is the UserInfo page.</p>
       <UserTable />
     </div>
   </div>

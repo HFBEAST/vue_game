@@ -1,9 +1,11 @@
 <template>
   <div class="content">
-    <el-scrollbar height="400px">
+    <el-button type="primary" @click="CSVDownload">
+      <el-icon style="margin-right: 5px;"><Download /></el-icon>
+      .CSV Download</el-button>
       <el-table
           :data="formattedUsers"
-          style="width: 100%; max-height: 600px;"
+          style="width: 100%; max-height: 600px; height: 400px; overflow-y: auto; overflow-x: hidden;"
           :header-cell-style="{color: '#515151', fontSize: '12px', textAlign: 'center'}"
           :cell-style="{fontSize: '10px'}"
       >
@@ -38,7 +40,7 @@
         </el-table-column>
 
       </el-table>
-    </el-scrollbar>
+
   </div>
 </template>
 
@@ -77,6 +79,30 @@ const formattedUsers = computed(() => {
     };
   });
 });
+
+const CSVDownload = () => {
+  const headers = Object.keys(formattedUsers.value[0]);
+  const csvRows = [headers.join(',')];
+
+  users.value.forEach(user => {
+    const values = headers.map(header => {
+      if (Array.isArray(user[header])) {
+        return user[header].join(' | ');
+      }
+      return user[header];
+    });
+    csvRows.push(values.join(','));
+  });
+
+  const csvData = new Blob(['\uFEFF' + csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+  const csvUrl = URL.createObjectURL(csvData);
+  const a = document.createElement('a');
+  a.setAttribute('href', csvUrl);
+  a.setAttribute('download', 'users.csv');
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+};
 
 const handleEdit = (index, row) => {
   // 处理用户编辑逻辑

@@ -1,9 +1,11 @@
 <template>
     <div class="side-nav">
-    <div class="title-section">
+      <router-link to="/" style="text-decoration: none; color: inherit;">
+    <div class="title-section ">
       <img src="@/assets/img/logo.png" alt="TryOut Logo" class="logo" />
       <div class="title-text">Vue Game</div>
     </div>
+      </router-link>
     <el-menu
         default-active="1"
         text-color="#333333"

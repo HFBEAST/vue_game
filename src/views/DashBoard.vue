@@ -2,8 +2,6 @@
   <div class="content">
     <HeaderNav title="Dashboard"/>
     <div class="main-content">
-      <h2>Dashboard Content</h2>
-      <p>This is the dashboard page.</p>
       <ChartList/>
     </div>
   </div>

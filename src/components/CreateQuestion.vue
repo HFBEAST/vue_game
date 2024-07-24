@@ -1,5 +1,8 @@
 <template>
   <div>
+    <el-button type="primary" @click="CSVDownload">
+      <el-icon style="margin-right: 5px;"><Download /></el-icon>
+      .CSV Download</el-button>
     <el-row class="add-question" :gutter="20">
       <el-col :span="22">
         <el-form :model="newQuestion">
@@ -17,8 +20,7 @@
       </el-col>
     </el-row>
 
-    <el-scrollbar height="400px">
-      <el-table :data="questions" style="width: 100%">
+      <el-table :data="questions" style="width: 100%; height: 400px">
         <el-table-column prop="id" label="ID" width="50"></el-table-column>
         <el-table-column prop="question" label="Question" width="auto">
           <template #default="scope">
@@ -31,7 +33,6 @@
           </template>
         </el-table-column>
       </el-table>
-    </el-scrollbar>
   </div>
 </template>
 
@@ -56,6 +57,25 @@ const fetchAWSData = () => {
 };
 
 const newQuestion = ref({question: ''});
+
+const CSVDownload = () => {
+  const headers = Object.keys(questions.value[0]);
+  const csvRows = [headers.join(',')];
+
+  questions.value.forEach(question => {
+    const values = headers.map(header => question[header]);
+    csvRows.push(values.join(','));
+  });
+
+  const csvData = new Blob(['\uFEFF' + csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+  const csvUrl = URL.createObjectURL(csvData);
+  const a = document.createElement('a');
+  a.setAttribute('href', csvUrl);
+  a.setAttribute('download', 'questions.csv');
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+};
 
 const handleAdd = () => {
   if (newQuestion.value.question.trim()) {
