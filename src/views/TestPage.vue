@@ -1,44 +1,75 @@
 <template>
-  <div class="content">
-    <HeaderNav title="Test Page"/>
-    <div class="main-content">
-      <h2>Test Content</h2>
-      <p>This is the test page.</p>
-
-      <!-- 显示从 AWS 获取的数据 -->
-      <pre>{{ awsdata ? JSON.stringify(awsdata, null, 2) : 'Loading data...' }}</pre>
-    </div>
+  <div>
+    <h2>ユーザー属性の統計</h2>
+    <v-chart :options="pieOptions" style="height: 400px;"></v-chart>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { loadDataFromAWS } from '@/utils/ToAWS'; // 确保导入路径正确
+import * as echarts from 'echarts';
+import { PieChart } from 'echarts/charts';
+import { CanvasRenderer } from 'echarts/renderers';
+import { TitleComponent, TooltipComponent, LegendComponent } from 'echarts/components';
 
-const awsdata = ref(null); // 初始化 awsdata 响应式变量
+// 使用 ECharts 组件
+echarts.use([PieChart, CanvasRenderer, TitleComponent, TooltipComponent, LegendComponent]);
 
-const fetchAWSData = () => {
-  const url = 'https://o5ymi5rci6dobeyypagnu44zlq0fnnlf.lambda-url.ap-northeast-1.on.aws/';
-  const requestData = { id: 'a', year: "2024", month: "07" };
+// 定义饼图数据
+const pieData = [
+  {value: 7, name: '年齢'},
+  {value: 7, name: '血液型'},
+  {value: 11, name: '部署'},
+  {value: 7, name: '学歴'},
+  {value: 7, name: '性別'},
+  {value: 14, name: '趣味'},
+  {value: 9, name: '情報収集メディア'},
+  {value: 7, name: '専攻'},
+  {value: 10, name: '職業'},
+  {value: 13, name: '性格'},
+  {value: 7, name: '役職'}
+];
 
-  loadDataFromAWS(url, requestData, (error, data) => {
-    if (error) {
-      console.error("Error fetching or parsing data:", error);
-      return;
-    }
-    awsdata.value = data; // 更新 awsdata 响应式变量
-  });
-};
+// 定义饼图选项
+const pieOptions = ref({
+  title: {
+    text: 'ユーザー属性の統計',
+    left: 'center',
+  },
+  tooltip: {
+    trigger: 'item',
+  },
+  legend: {
+    orient: 'vertical',
+    left: 'left',
+  },
+  series: [
+    {
+      name: '属性',
+      type: 'pie',
+      radius: '50%',
+      data: pieData,
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowColor: 'rgba(0, 0, 0, 0.5)',
+        },
+      },
+    },
+  ],
+});
 
-onMounted(fetchAWSData); // 在组件挂载时调用 fetchAWSData 函数
+// 在 onMounted 中初始化图表选项
+onMounted(() => {
+  console.log("Component mounted, initializing pie chart options.");
+  pieOptions.value.series[0].data = pieData;
+});
 </script>
 
 <style scoped>
-.content {
-  height: 100vh;
-  width: 100%;
-}
-.main-content {
-  padding: 20px;
+h2 {
+  text-align: center;
+  margin: 20px 0;
 }
 </style>
