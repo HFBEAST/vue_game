@@ -28,43 +28,65 @@
                 style="width: 100%; max-height: 600px; height: 800px; overflow-y: auto; overflow-x: hidden;"
                 :header-cell-style="{color: '#515151', fontSize: '12px', textAlign: 'center'}"
                 :cell-style="{fontSize: '10px'}">
+<!--
+                <el-table-column label="keys" type="expand" width="70">
+          <template v-slot="props">
+            <p>{{ props.row.keys }}</p>
+          </template>
+        </el-table-column>
+-->
         <el-table-column prop="userid" label="ID" width="50"/>
         <el-table-column prop="file" label="ファイル名" width="100"/>
-        <el-table-column prop="questno" label="questno" width="20"/>
-        <el-table-column prop="quest" label="問題" width="100"/>
-        <el-table-column prop="answer" label="回答" width="100"/>
-        <el-table-column prop="excellent" label="excellent" width="20"/>
-        <el-table-column prop="great" label="great" width="20"/>
-        <el-table-column prop="good" label="good" width="20"/>
-        <el-table-column prop="score" label="score" width="20"/>
-        <el-table-column prop="morpheme" label="morpheme" width="100"/>
-        <el-table-column prop="keys" label="keys" width="500"/>
-        <el-table-column label="操作" width="180">
+        <el-table-column prop="questno" label="questno" width="50"/>
+        <el-table-column prop="quest" label="問題" width="300"/>
+        <el-table-column class="answer" prop="answer" label="回答" width="200"/>
+        <el-table-column prop="excellent" label="excellent" width="50"/>
+        <el-table-column prop="great" label="great" width="50"/>
+        <el-table-column prop="good" label="good" width="50"/>
+        <el-table-column prop="score" label="score" width="50"/>
+
+        <el-table-column label="morpheme" width="180">
           <template #default="scope">
-            <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">
-              <el-icon>
-                <delete/>
-              </el-icon>
-              削除
-            </el-button>
+            <el-popover effect="light" trigger="hover" placement="left" width="auto">
+              <template #default>
+                <div class="popup">{{ scope.row.morpheme }}</div>
+              </template>
+              <template #reference>
+                <el-tag>回答形態素表示</el-tag>
+              </template>
+            </el-popover>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="keys" width="180">
+          <template #default="scope">
+            <el-popover effect="light" trigger="hover" placement="left" width="auto">
+              <template #default>
+                <div class="popup">{{ scope.row.keys }}</div>
+              </template>
+              <template #reference>
+                <el-tag>キー入力表示</el-tag>
+              </template>
+            </el-popover>
           </template>
         </el-table-column>
       </el-table>
     </div>
   </div>
 </template>
-
 <script setup>
 import {ref, onMounted} from 'vue';
 import {loadDataFromAWS} from "@/utils/ToAWS";
-import {Delete} from "@element-plus/icons-vue";
+//import {Delete} from "@element-plus/icons-vue";
+import _ from 'lodash';
 
 const dateRange = ref([]);
-const size = ref('medium');
+const size = ref('');
 const StartDate = ref(null);
 const EndDate = ref(null);
 const awsdata = ref([]);
 const filteredAnswers = ref([]);
+let copyAnswers = ref([]);
 
 const fetchAWSData = () => {
   const url = 'https://o5ymi5rci6dobeyypagnu44zlq0fnnlf.lambda-url.ap-northeast-1.on.aws/';
@@ -76,6 +98,13 @@ const fetchAWSData = () => {
       return;
     }
     awsdata.value = data; // 更新 awsdata 响应式变量
+    copyAnswers = _.cloneDeep(awsdata)
+    awsdata.value.forEach(item => {
+        item.answer = item.answer.replaceAll('|', '\n');
+        item.morpheme = item.morpheme.replaceAll('|', '\n');
+        item.keys = item.keys.replaceAll('"', '');
+        item.keys = item.keys.replaceAll('|', '\n');
+    });
     filterAnswers();
   });
 };
@@ -113,10 +142,10 @@ const isDateInRange = (date) => {
 
 
 const CSVDownload = () => {
-  const headers = Object.keys(awsdata.value[0]);
+  const headers = Object.keys(copyAnswers.value[0]);
   const csvRows = [headers.join(',')];
 
-  awsdata.value.forEach(question => {
+  copyAnswers.value.forEach(question => {
     const values = headers.map(header => question[header]);
     csvRows.push(values.join(','));
   });
@@ -132,11 +161,25 @@ const CSVDownload = () => {
 };
 
 onMounted(fetchAWSData);
+
 </script>
 
 <style scoped>
 .answers-container {
   max-height: 400px; /* 调整高度以适应您的布局 */
   margin-top: 10px;
+}
+
+</style>
+<style>
+
+.el-table .cell {
+  white-space: pre-line;
+}
+.popup {
+  font-size: 10px;
+  white-space: pre-line;
+  height:300px;
+  overflow-y: scroll;
 }
 </style>

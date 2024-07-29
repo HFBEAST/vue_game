@@ -56,6 +56,7 @@ export const AnswersCSV = (csv) => {
 
   for (let i = 1; i < lines.length; i++) {
     const currentline = lines[i].split(',');
+    // console.log("lines : ",currentline);
 
     // 跳过空行
     if (currentline.length < 2) {
@@ -68,7 +69,7 @@ export const AnswersCSV = (csv) => {
     }
 
     // 将剩余的所有数据合并作为最后一个标题的内容
-    obj[headers[headers.length - 1].trim()] = currentline.slice(headers.length).join(',').trim();
+    obj[headers[headers.length - 1].trim()] = currentline.slice(headers.length-1).join(',').trim();
 
     result.push(obj);
   }
