@@ -2,8 +2,8 @@
     <div class="side-nav">
       <router-link to="/" style="text-decoration: none; color: inherit;">
     <div class="title-section ">
-      <img src="@/assets/img/logo.png" alt="TryOut Logo" class="logo" />
-      <div class="title-text">Vue Game</div>
+      <img src="@/assets/img/logo.png" alt="Logo" class="logo" />
+      <div class="title-text">Game app</div>
     </div>
       </router-link>
     <el-menu
@@ -24,7 +24,7 @@
           <el-icon>
             <user/>
           </el-icon>
-          ユーザー情報
+          ユーザー一覧
         </router-link>
       </el-menu-item>
       <el-menu-item index="3">
@@ -32,7 +32,7 @@
           <el-icon>
             <document/>
           </el-icon>
-          Question List
+          問題一覧
         </router-link>
       </el-menu-item>
       <el-menu-item index="4">
@@ -40,7 +40,7 @@
           <el-icon>
             <View/>
           </el-icon>
-          Answer List
+          解答一覧
         </router-link>
       </el-menu-item>
     </el-menu>

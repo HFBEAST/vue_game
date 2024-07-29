@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <HeaderNav title="UserInfo"/>
+    <HeaderNav title="ユーザー一覧"/>
     <div class="content-container">
       <UserTable />
     </div>

@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <HeaderNav title="Dashboard"/>
+    <HeaderNav title="ダッシュボード"/>
     <div class="main-content">
       <ChartList/>
     </div>

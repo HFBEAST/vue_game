@@ -10,19 +10,20 @@
           :header-cell-style="{color: '#515151', fontSize: '12px', textAlign: 'center'}"
           :cell-style="{fontSize: '10px'}"
       >
-        <el-table-column prop="userid" label="ID" width="50"/>
+        <el-table-column prop="userid" label="ID" width="100"/>
         <el-table-column prop="Age" label="年齢" width="50"/>
         <el-table-column prop="Gender" label="性別" width="80"/>
-        <el-table-column prop="Blood type" label="血液型" width="60"/>
-        <el-table-column prop="Educational background (Highest education)" label="経歴（最終学歴）" width="120"/>
+        <el-table-column prop="Blood type" label="血液型" width="70"/>
+        <el-table-column prop="Educational background (Highest education)" label="経歴（最終学歴）" width="130"/>
         <el-table-column prop="Major/Field of study" label="学科" width="120"/>
         <el-table-column prop="Occupation" label="職業" width="120"/>
         <el-table-column prop="Department" label="部署" width="120"/>
         <el-table-column prop="Position (job title)" label="役職（職位）" width="120"/>
         <el-table-column prop="Personality" label="性格" width="120"/>
         <el-table-column prop="Hobbies" label="趣味" width="120"/>
-        <el-table-column prop="Information gathering media" label="情報収集メディア" width="120"/>
-        <el-table-column prop="create_dt" label="create_dt" width="120"/>
+        <el-table-column prop="Information gathering media" label="情報収集メディア" width="130"/>
+        <el-table-column prop="create_dt" label="登録日" width="120"/>
+<!--
         <el-table-column label="操作" width="180">
           <template #default="scope">
             <el-button size="small" @click="handleEdit(scope.$index, scope.row)">
@@ -39,7 +40,7 @@
             </el-button>
           </template>
         </el-table-column>
-
+-->
       </el-table>
 
   </div>
@@ -48,7 +49,7 @@
 <script setup>
 import {ref, onMounted, computed} from 'vue';
 import {loadDataFromAWS} from '@/utils/ToAWS';
-import {Delete, Edit} from "@element-plus/icons-vue";
+//import {Delete, Edit} from "@element-plus/icons-vue";
 
 const users = ref([]);
 
@@ -105,15 +106,15 @@ const CSVDownload = () => {
   document.body.removeChild(a);
 };
 
-const handleEdit = (index, row) => {
-  // 处理用户编辑逻辑
-  console.log('Edit:', row);
-};
+//const handleEdit = (index, row) => {
+//  // 处理用户编辑逻辑
+//  console.log('Edit:', row);
+//};
 
-const handleDelete = (index, row) => {
-  // 处理用户删除逻辑
-  console.log('Delete:', row);
-};
+//const handleDelete = (index, row) => {
+//  // 处理用户删除逻辑
+//  console.log('Delete:', row);
+//};
 
 onMounted(fetchAWSData);
 </script>

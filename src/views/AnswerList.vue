@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <HeaderNav title="QuestionList"/>
+    <HeaderNav title="解答一覧"/>
     <div class="main-content">
       <AnswerView/>
     </div>

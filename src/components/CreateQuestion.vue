@@ -14,7 +14,7 @@
       <el-col :span="2">
         <el-form :model="newQuestion">
           <el-form-item>
-            <el-button type="primary" @click="handleAdd">登陆</el-button>
+            <el-button type="primary" @click="handleAdd">登録</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -29,11 +29,13 @@
             <div class="content-cell">{{ scope.row.question }}</div>
           </template>
         </el-table-column>
+<!--
         <el-table-column label="操作" width="180">
           <template #default="scope">
             <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
+-->
       </el-table>
   </div>
 </template>
@@ -81,19 +83,29 @@ const CSVDownload = () => {
 
 const handleAdd = () => {
   if (newQuestion.value.question.trim()) {
-    questions.value.push({
-      id: questions.value.length ? questions.value[questions.value.length - 1].id + 1 : 1,
-      question: newQuestion.value.question,
-    });
-    newQuestion.value.question = '';
+//    questions.value.push({
+//      id: questions.value.length ? questions.value[questions.value.length - 1].id + 1 : 1,
+//      question: newQuestion.value.question,
+//    });
+//    newQuestion.value.question = '';
+    const url = 'https://iboemjay5r6mafs4vfv4somtxu0bcbfu.lambda-url.ap-northeast-1.on.aws/';
+    const requestData = {id: 'q', quest: newQuestion.value.question};
+
+    loadDataFromAWS(url, requestData, (error, data) => {
+      if (error) {
+        console.error("Error fetching or parsing data:", error);
+        return;
+      }
+    questions.value = data; // 更新 awsdata 响应式变量
+  });
   } else {
     console.warn('Question input is empty.');
   }
 };
 
-const handleDelete = (index, id) => {
-  questions.value = questions.value.filter((q) => q.id !== id).map((q, i) => ({...q, id: i + 1}));
-};
+//const handleDelete = (index, id) => {
+//  questions.value = questions.value.filter((q) => q.id !== id).map((q, i) => ({...q, id: i + 1}));
+//};
 
 onMounted(fetchAWSData); // 在组件挂载时调用 fetchAWSData 函数
 
