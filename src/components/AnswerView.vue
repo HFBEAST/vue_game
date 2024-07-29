@@ -22,7 +22,9 @@
       </el-col>
     </el-row>
     <div class="answers-container">
-      <el-table class="header-table"
+      <el-table
+          border resizable
+          class="header-table"
           :data="filteredAnswers"
                 style="width: 100%; max-height: 600px; height: 800px; overflow-y: auto; overflow-x: hidden;"
                 :header-cell-style="{color: '#515151', fontSize: '12px', textAlign: 'center'}"

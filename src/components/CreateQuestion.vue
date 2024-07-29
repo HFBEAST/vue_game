@@ -20,7 +20,9 @@
       </el-col>
     </el-row>
 
-      <el-table :data="questions" style="width: 100%; height: 400px">
+      <el-table
+          border resizable
+          :data="questions" style="width: 100%; height: 400px">
         <el-table-column prop="id" label="ID" width="50"></el-table-column>
         <el-table-column prop="question" label="Question" width="auto">
           <template #default="scope">

@@ -4,6 +4,7 @@
       <el-icon style="margin-right: 5px;"><Download /></el-icon>
       .CSV Download</el-button>
       <el-table
+          border resizable
           :data="formattedUsers"
           style="width: 100%; max-height: 600px; height: 400px; overflow-y: auto; overflow-x: hidden;"
           :header-cell-style="{color: '#515151', fontSize: '12px', textAlign: 'center'}"
