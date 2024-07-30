@@ -6,7 +6,7 @@
       <el-table
           border resizable
           :data="formattedUsers"
-          style="width: 100%; max-height: 600px; height: 400px; overflow-y: auto; overflow-x: hidden;"
+          style="margin-top: 20px; width: 100%; height: calc(100vh - 190px); overflow-y: auto; overflow-x: hidden;"
           :header-cell-style="{color: '#515151', fontSize: '12px', textAlign: 'center'}"
           :cell-style="{fontSize: '10px'}"
       >

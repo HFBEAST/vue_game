@@ -46,7 +46,6 @@ export const QestionsCSV = (csv) => {
   return result;
 };
 
-
 export const AnswersCSV = (csv) => {
   const lines = csv.split('\n');
   const result = [];
@@ -76,8 +75,6 @@ export const AnswersCSV = (csv) => {
 
   return result;
 };
-
-
 
 // 从 AWS 获取数据
 export const loadDataFromAWS = (url, data, callback) => {

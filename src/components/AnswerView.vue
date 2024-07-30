@@ -25,7 +25,7 @@
       <el-table class="header-table"
                 border resizable
                 :data="filteredAnswers"
-                style="width: 100%; max-height: 600px; height: 800px; overflow-y: auto; overflow-x: hidden;"
+                style="margin-top: 20px;width: 100%; height: calc(100vh - 190px); overflow-y: auto; overflow-x: hidden;"
                 :header-cell-style="{color: '#515151', fontSize: '12px', textAlign: 'center'}"
                 :cell-style="{fontSize: '10px'}">
 <!--
@@ -88,9 +88,15 @@ const awsdata = ref([]);
 const filteredAnswers = ref([]);
 let copyAnswers = ref([]);
 
+const nowDate = new Date();
+dateRange.value[0] = new Date(nowDate.getFullYear(), nowDate.getMonth(), 1);
+dateRange.value[1] = new Date(nowDate.getFullYear(), nowDate.getMonth()+1, 0);
+
 const fetchAWSData = () => {
   const url = 'https://o5ymi5rci6dobeyypagnu44zlq0fnnlf.lambda-url.ap-northeast-1.on.aws/';
-  const requestData = {id: 'a', start: "2024-05-01", end: "2024-07-29"};
+  StartDate.value = new Date(dateRange.value[0].getFullYear(), dateRange.value[0].getMonth(), 1);
+  EndDate.value = new Date(dateRange.value[1].getFullYear(), dateRange.value[1].getMonth()+1, 0);
+  const requestData = {id: 'a', start: StartDate.value, end: EndDate.value};
 
   loadDataFromAWS(url, requestData, (error, data) => {
     if (error) {
@@ -119,9 +125,10 @@ const fetchAWSData = () => {
 };
 
 const handleSearch = () => {
-  StartDate.value = new Date(dateRange.value[0]);
-  EndDate.value = new Date(dateRange.value[1]);
-  filterAnswers();
+//  StartDate.value = new Date(dateRange.value[0]);
+//  EndDate.value = new Date(dateRange.value[1]);
+//  filterAnswers();
+  fetchAWSData();
 };
 
 const filterAnswers = () => {
@@ -131,10 +138,15 @@ const filterAnswers = () => {
   }
 
   filteredAnswers.value = awsdata.value.filter(item => {
-    const dateStr = item.file.slice(0, 8);
+//    const dateStr = item.file.slice(0, 8);
+//    const year = dateStr.slice(0, 4);
+//    const month = dateStr.slice(4, 6);
+//    const day = dateStr.slice(6, 8);
+//    const formattedDate = `${year}-${month}-${day}`;
+    const dateStr = item.file.slice(0, 10);
     const year = dateStr.slice(0, 4);
-    const month = dateStr.slice(4, 6);
-    const day = dateStr.slice(6, 8);
+    const month = dateStr.slice(5, 7);
+    const day = dateStr.slice(8, 10);
     const formattedDate = `${year}-${month}-${day}`;
     return isDateInRange(formattedDate);
   });

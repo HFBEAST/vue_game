@@ -19,11 +19,12 @@ export default defineComponent({
 
 <style scoped>
 .content {
-height: 100vh;
-  width: 100%;
+  height: 100vh;
+  width: calc(100%);
 }
 
 .main-content {
+  height: 100vh;
   padding: 20px;
 }
 </style>

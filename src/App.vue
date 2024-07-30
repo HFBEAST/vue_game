@@ -7,8 +7,32 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { onMounted, onBeforeUnmount } from 'vue';
 
+const minWidth = 5000;
+const minHeight = 600;
+
+const resizeHandler = () => {
+  if (window.innerWidth < minWidth || window.innerHeight < minHeight) {
+    if (window.innerWidth < minWidth && window.innerHeight < minHeight) {
+      window.resizeTo(minWidth, minHeight);
+    } else if (window.innerWidth < minWidth) {
+      window.resizeTo(minWidth, window.innerHeight);
+    } else if (window.innerHeight < minHeight) {
+      window.resizeTo(window.innerWidth, minHeight);
+    }
+  }
+};
+
+onMounted(() => {
+  window.addEventListener('resize', resizeHandler);
+  resizeHandler(); // Initial check
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', resizeHandler);
+});
 </script>
 
 <style>

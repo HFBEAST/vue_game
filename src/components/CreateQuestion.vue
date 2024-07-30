@@ -22,7 +22,8 @@
 
       <el-table
           border resizable
-          :data="questions" style="width: 100%; height: 400px">
+          :data="questions"
+          style="width: 100%; height: calc(100vh - 240px);">
         <el-table-column prop="id" label="ID" width="50"></el-table-column>
         <el-table-column prop="question" label="Question" width="auto">
           <template #default="scope">
@@ -131,6 +132,7 @@ onMounted(fetchAWSData); // 在组件挂载时调用 fetchAWSData 函数
 
 .add-question {
   margin-top: 20px;
+  margin-bottom: 0px;
 }
 
 </style>
