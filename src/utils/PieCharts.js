@@ -66,7 +66,7 @@ export const parseUserData = (data) => {
     if (item.Gender) attributes.genders.push(item.Gender);
     if (item.Hobbies) attributes.hobbies.push(...item.Hobbies.split('|'));
     if (item["Information gathering media"]) attributes.mediaSources.push(...item["Information gathering media"].split('|'));
-    if (item["Major/Field of study"]) attributes.majors.push(item["Major/Field of study"]);
+    if (item["Major/Field of study"]) attributes.majors.push(...item["Major/Field of study"].split('|'));
     if (item.Occupation) attributes.occupations.push(...item.Occupation.split('|'));
     if (item.Personality) attributes.personalities.push(...item.Personality.split('|'));
     if (item["Position (job title)"]) attributes.positions.push(item["Position (job title)"]);
