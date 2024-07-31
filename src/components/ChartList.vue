@@ -27,8 +27,18 @@
             </el-option>
           </el-select>
         </el-col>
-        <el-col :span="2">
-          <el-select v-model="selectedMonth" placeholder="Select Month" style="margin-bottom: 20px">
+        <el-col :span="6">
+          <el-select v-model="selectedYear" placeholder="Select Year">
+            <el-option
+              v-for="year in years"
+              :key="year"
+              :label="year"
+              :value="year">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="6">
+          <el-select v-model="selectedMonth" placeholder="Select Month">
             <el-option
               v-for="month in months"
               :key="month"
@@ -59,8 +69,10 @@ const BloodChartOptions = ref(null);
 const ageChartOptions = ref(null);
 const genderChartOptions = ref(null);
 const selectedQuestno = ref("1");
+const selectedYear = ref("2024");
 const selectedMonth = ref("01");
 const chartOptions = ref({});
+const years = ["2023", "2024", "2025"];
 const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
 const chartData = AnswerAttributes;
 
@@ -88,10 +100,10 @@ const fetchanswersData = async () => {
   const EndDate = ref(null);
   const nowDate = new Date();
   dateRange.value[0] = new Date(nowDate.getFullYear(), nowDate.getMonth(), 1);
-  dateRange.value[1] = new Date(nowDate.getFullYear(), nowDate.getMonth()+1, 0);
+  dateRange.value[1] = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0);
   const userUrl = 'https://o5ymi5rci6dobeyypagnu44zlq0fnnlf.lambda-url.ap-northeast-1.on.aws/';
   StartDate.value = new Date(dateRange.value[0].getFullYear(), dateRange.value[0].getMonth(), 1);
-  EndDate.value = new Date(dateRange.value[1].getFullYear(), dateRange.value[1].getMonth()+1, 0);
+  EndDate.value = new Date(dateRange.value[1].getFullYear(), dateRange.value[1].getMonth() + 1, 0);
   const userRequestData = {id: 'a', start: StartDate.value, end: EndDate.value};
 
   loadDataFromAWS(userUrl, userRequestData, (error, data) => {
@@ -106,10 +118,10 @@ const fetchanswersData = async () => {
 
 // グラフを更新する関数
 const updateChart = () => {
-  const data = chartData.value[selectedQuestno.value]?.monthlyData[selectedMonth.value];
+  const data = chartData.value[selectedQuestno.value]?.yearlyData[selectedYear.value]?.monthlyData[selectedMonth.value];
   if (data) {
     const xData = Object.keys(data.answerCounts).map(key => Number(key));
-    const yData = Object.values(data.answerCounts);
+    const yData = Object.values(data.answerCounts).map(count => Math.round(count)); // 人数の統計を整数にする
 
     chartOptions.value = {
       title: {
@@ -122,7 +134,8 @@ const updateChart = () => {
       },
       yAxis: {
         type: 'value',
-        name: '人数'
+        name: '人数',
+        interval: 1
       },
       series: [{
         data: yData,
@@ -133,7 +146,7 @@ const updateChart = () => {
 };
 
 // 監視対象の変数が変更された時にグラフを更新する
-watch([selectedQuestno, selectedMonth], updateChart);
+watch([selectedQuestno, selectedYear, selectedMonth], updateChart);
 
 // 初期化時にデータを取得し、グラフを更新する
 onMounted(() => {
@@ -173,10 +186,10 @@ watch(userAttributes, (newVal) => {
 
   const BloodType = [
     {value: newVal.bloodTypes.filter(blood => blood === 'A型').length, name: 'A型'},
-    {value: newVal.bloodTypes.filter(blood =>blood === 'B型').length, name: 'B型'},
-    {value: newVal.bloodTypes.filter(blood =>blood === 'O型').length, name: 'O型'},
-    {value: newVal.bloodTypes.filter(blood =>blood === 'AB型').length, name: 'AB型'},
-    {value: newVal.bloodTypes.filter(blood =>blood === 'その他').length, name: 'その他'},
+    {value: newVal.bloodTypes.filter(blood => blood === 'B型').length, name: 'B型'},
+    {value: newVal.bloodTypes.filter(blood => blood === 'O型').length, name: 'O型'},
+    {value: newVal.bloodTypes.filter(blood => blood === 'AB型').length, name: 'AB型'},
+    {value: newVal.bloodTypes.filter(blood => blood === 'その他').length, name: 'その他'},
   ]
   console.log("Updated pie chart data:", BloodType); // 調整のための出力
   BloodChartOptions.value = {
