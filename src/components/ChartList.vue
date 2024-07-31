@@ -220,7 +220,7 @@ watch(userAttributes, (newVal) => {
     {value: newVal.ages.filter(age => age >= 40 && age < 50).length, name: '40代'},
     {value: newVal.ages.filter(age => age >= 50 && age < 60).length, name: '50代'},
     {value: newVal.ages.filter(age => age >= 60).length, name: '60代以上'},
-  ];
+  ].filter(item => item.value > 0); //0対象表示しない
   console.log("Updated age distribution data:", ageData); // 調整のための出力
   ageChartOptions.value = {
     ...PieOptions.value,
@@ -233,7 +233,7 @@ watch(userAttributes, (newVal) => {
     {value: newVal.genders.filter(gender => gender === '男性').length, name: '男性'},
     {value: newVal.genders.filter(gender => gender === '女性').length, name: '女性'},
     {value: newVal.genders.filter(gender => gender !== '男性' && gender !== '女性').length, name: 'その他'},
-  ];
+  ].filter(item => item.value > 0); //0対象表示しない
   console.log("Updated gender distribution data:", genderData); // 調整のための出力
   genderChartOptions.value = {
     ...PieOptions.value,
@@ -248,7 +248,7 @@ watch(userAttributes, (newVal) => {
     {value: newVal.bloodTypes.filter(blood => blood === 'O型').length, name: 'O型'},
     {value: newVal.bloodTypes.filter(blood => blood === 'AB型').length, name: 'AB型'},
     {value: newVal.bloodTypes.filter(blood => blood === 'その他').length, name: 'その他'},
-  ]
+  ].filter(item => item.value > 0); //0対象表示しない
   console.log("Updated pie chart data:", BloodType); // 調整のための出力
   BloodChartOptions.value = {
     ...PieOptions.value,
@@ -273,7 +273,7 @@ watch(userAttributes, (newVal) => {
     {value: newVal.educationLevels.filter(educationLevel => educationLevel === '成人高等学校卒業').length, name: '成人高等学校卒業'},
     {value: newVal.educationLevels.filter(educationLevel => educationLevel === '成人大学卒業').length, name: '成人大学卒業'},
     {value: newVal.educationLevels.filter(educationLevel => educationLevel === 'その他').length, name: 'その他'},
-  ]
+  ].filter(item => item.value > 0); //0対象表示しない
   console.log("Updated pie chart data:", educationLevelData); // 调试输出
   educationLevelChartOptions.value = {
     ...PieOptions.value,
@@ -327,7 +327,7 @@ watch(userAttributes, (newVal) => {
     {value: newVal.majors.filter(major => major === '生命科学').length, name: '生命科学'},
     {value: newVal.majors.filter(major => major === 'その他').length, name: 'その他'},
     {value: newVal.majors.filter(major => major === 'なし').length, name: 'なし'},
-  ]
+  ].filter(item => item.value > 0); //0対象表示しない
   console.log("Updated pie chart data:", majorData); // 调试输出
   majorChartOptions.value = {
     ...PieOptions.value,
@@ -371,7 +371,7 @@ watch(userAttributes, (newVal) => {
     {value: newVal.occupations.filter(occupation => occupation === 'ペット').length, name: 'ペット'},
     {value: newVal.occupations.filter(occupation => occupation === 'その他').length, name: 'その他'},
     {value: newVal.occupations.filter(occupation => occupation === 'なし').length, name: 'なし'},
-  ]
+  ].filter(item => item.value > 0); //0対象表示しない
   console.log("Updated pie chart data:", occupationData); // 调试输出
   occupationChartOptions.value = {
     ...PieOptions.value,
@@ -405,7 +405,7 @@ watch(userAttributes, (newVal) => {
     {value: newVal.departments.filter(department => department === '資材部').length, name: '資材部'},
     {value: newVal.departments.filter(department => department === 'その他').length, name: 'その他'},
     {value: newVal.departments.filter(department => department === 'なし').length, name: 'なし'},
-  ]
+  ].filter(item => item.value > 0); //0対象表示しない
   console.log("Updated pie chart data:", departmentData); // 调试输出
   departmentChartOptions.value = {
     ...PieOptions.value,
@@ -431,7 +431,7 @@ watch(userAttributes, (newVal) => {
     {value: newVal.positions.filter(position => position === '代表取締役').length, name: '代表取締役'},
     {value: newVal.positions.filter(position => position === 'その他').length, name: 'その他'},
     {value: newVal.positions.filter(position => position === 'なし').length, name: 'なし'},
-  ]
+  ].filter(item => item.value > 0); //0対象表示しない
   console.log("Updated pie chart data:", positionData); // 调试输出
   positionChartOptions.value = {
     ...PieOptions.value,
@@ -456,7 +456,7 @@ watch(userAttributes, (newVal) => {
     {value: newVal.personalities.filter(personality => personality === '温厚な').length, name: '温厚な'},
     {value: newVal.personalities.filter(personality => personality === '冷静な').length, name: '冷静な'},
     {value: newVal.personalities.filter(personality => personality === 'その他').length, name: 'その他'},
-  ]
+  ].filter(item => item.value > 0); //0対象表示しない
   console.log("Updated pie chart data:", personalityData); // 调试输出
   personalityChartOptions.value = {
     ...PieOptions.value,
@@ -500,7 +500,7 @@ watch(userAttributes, (newVal) => {
     {value: newVal.hobbies.filter(hobbie => hobbie === 'ファッション').length, name: 'ファッション'},
     {value: newVal.hobbies.filter(hobbie => hobbie === 'アニメ・マンガ').length, name: 'アニメ・マンガ'},
     {value: newVal.hobbies.filter(hobbie => hobbie === 'その他').length, name: 'その他'},
-  ]
+  ].filter(item => item.value > 0); //0対象表示しない
   console.log("Updated pie chart data:", hobbieData); // 调试输出
   hobbieChartOptions.value = {
     ...PieOptions.value,
@@ -517,7 +517,7 @@ watch(userAttributes, (newVal) => {
     {value: newVal.mediaSources.filter(mediaSource => mediaSource === 'ラジオ').length, name: 'ラジオ'},
     {value: newVal.mediaSources.filter(mediaSource => mediaSource === '雑誌').length, name: '雑誌'},
     {value: newVal.mediaSources.filter(mediaSource => mediaSource === 'その他').length, name: 'その他'},
-  ]
+  ].filter(item => item.value > 0); //0対象表示しない
   console.log("Updated pie chart data:", mediaSourceData); // 调试输出
   mediaSourceChartOptions.value = {
     ...PieOptions.value,
