@@ -4,10 +4,10 @@
                 style="width: 100%; height: calc(100vh - 140px); overflow-y: auto;">
     <el-row :gutter="20">
       <el-col :span="isTwoColumn ? 12 : 24">
-        <v-chart :option="BloodChartOptions" style="width: 450px; height: 500px;"></v-chart>
+        <v-chart :option="ageChartOptions" style="width: 450px; height: 500px;"></v-chart>
       </el-col>
       <el-col :span="isTwoColumn ? 12 : 24" v-if="isTwoColumn || ageChartOptions">
-        <v-chart :option="ageChartOptions" style="width: 450px; height: 500px;"></v-chart>
+        <v-chart :option="genderChartOptions" style="width: 450px; height: 500px;"></v-chart>
       </el-col>
     </el-row>
     <el-row :gutter="20">
@@ -108,11 +108,12 @@ const positionChartOptions = ref(null);
 const personalityChartOptions = ref(null);
 const hobbieChartOptions = ref(null);
 const mediaSourceChartOptions = ref(null);
+const date = new Date();
 const selectedQuestno = ref("1");
-const selectedYear = ref("2024");
-const selectedMonth = ref("01");
+const selectedYear = ref(date.getFullYear().toString());
+const selectedMonth = ref((date.getMonth() + 1).toString().padStart(2, "0"));
 const chartOptions = ref({});
-const years = ["2023", "2024", "2025"];
+const years = [(date.getFullYear() - 1).toString(), date.getFullYear().toString(), (date.getFullYear() + 1).toString()];
 const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
 const chartData = AnswerAttributes;
 
@@ -169,36 +170,38 @@ const fetchanswersData = async () => {
     }
     console.log("Fetched Answer data:", data); // 調整のための出力
     parseAnswerData(data);
+    updateChart(); // 初期化時のグラフ
   });
 };
 
 // グラフを更新する関数
 const updateChart = () => {
   const data = chartData.value[selectedQuestno.value]?.yearlyData[selectedYear.value]?.monthlyData[selectedMonth.value];
+  var xData = [];
+  var yData = [];
   if (data) {
-    const xData = Object.keys(data.answerCounts).map(key => Number(key));
-    const yData = Object.values(data.answerCounts).map(count => Math.round(count)); // 人数の統計を整数にする
-
-    chartOptions.value = {
-      title: {
-        text: `${selectedQuestno.value} - ${chartData.value[selectedQuestno.value].quest}`
-      },
-      xAxis: {
-        type: 'category',
-        data: xData,
-        name: '　回答数　/　人'
-      },
-      yAxis: {
-        type: 'value',
-        name: '人数',
-        interval: 1
-      },
-      series: [{
-        data: yData,
-        type: 'bar'
-      }]
-    };
+    xData = Object.keys(data.answerCounts).map(key => Number(key));
+    yData = Object.values(data.answerCounts).map(count => Math.round(count)); // 人数の統計を整数にする
   }
+  chartOptions.value = {
+    title: {
+      text: `${selectedQuestno.value} - ${chartData.value[selectedQuestno.value].quest}`
+    },
+    xAxis: {
+      type: 'category',
+      data: xData,
+      name: '　解答数'
+    },
+    yAxis: {
+      type: 'value',
+      name: '人数',
+      interval: 1
+    },
+    series: [{
+      data: yData,
+      type: 'bar'
+    }]
+  };
 };
 
 // 監視対象の変数が変更された時にグラフを更新する
@@ -208,7 +211,6 @@ watch([selectedQuestno, selectedYear, selectedMonth], updateChart);
 onMounted(() => {
   fetchusersData();
   fetchanswersData();
-  updateChart(); // 初期化時のグラフ
 });
 
 // ユーザー属性データが更新された時にグラフを更新する
