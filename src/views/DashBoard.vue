@@ -24,7 +24,7 @@ export default defineComponent({
 }
 
 .main-content {
-  height: 100vh;
+  display: flex;
   padding: 20px;
 }
 </style>
